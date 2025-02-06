@@ -58,7 +58,7 @@ router.post(
 
 /**
  * @swagger
- * /api/auth/login:
+ * /api/auth/auth:
  *   post:
  *     summary: Login and get a JWT token
  *     tags: [Authentication]
@@ -91,14 +91,38 @@ router.post("/auth", handleLogin);
  * /api/auth/protected:
  *   get:
  *     summary: Access a protected route (Requires authentication)
- *     tags: [Authentication]
+ *     description: This endpoint requires a valid JWT token to access.
+ *     tags:
+ *       - Authentication
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Successfully accessed protected route
+ *         description: Successfully accessed protected route.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Access granted
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     email:
+ *                       type: string
+ *                       example: "user@example.com"
  *       401:
- *         description: Unauthorized
+ *         description: Unauthorized - Missing or invalid token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized
  */
 router.get("/protected", verifyJWT, protectedRoute);
 

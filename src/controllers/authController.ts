@@ -19,15 +19,16 @@ export const registerUser = async (req: any, res: any) => {
 };
 
 export const handleLogin = async (req: any, res: any) => {
-  const { email, pwd } = req.body;
-  if (!email || !pwd)
+  const { email, password } = req.body;
+
+  if (!email || !password)
     return res
       .status(400)
       .json({ message: "Username and password are required" });
 
-  const foundUser: any = AuthService.findUser(email);
+  const foundUser = await AuthService.findUser(email);
 
-  const match = await bcrypt.compare(pwd, foundUser.password);
+  const match = await bcrypt.compare(password, foundUser.password);
 
   if (!foundUser || !match)
     return res.status(401).json({ message: "Invalid email or password" });
@@ -38,12 +39,7 @@ export const handleLogin = async (req: any, res: any) => {
     { expiresIn: "1h" }
   );
 
-  if (match) {
-    res.json({ token });
-    res.status(200).json({ message: "User Found" });
-  } else {
-    res.sendStatus(401);
-  }
+  return res.json({ token, message: "User Found" });
 };
 
 export const protectedRoute = (req: any, res: any) => {

@@ -12,6 +12,15 @@ const options = {
         description: 'API documentation for authentication system',
       },
     servers: [{ url: `http://localhost:${PORT}` }],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
   },
   apis: ["./src/routes/*.ts", "./src/controllers/*.ts"],
 };

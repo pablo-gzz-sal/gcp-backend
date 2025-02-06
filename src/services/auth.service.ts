@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 class AuthService {
   static findUser = async (email: string): Promise<any> => {
-    return User.find((user: { email: string, }) => user.email === email);
+    return await User.findOne({ email })
   };
 
   static createUser = async (
