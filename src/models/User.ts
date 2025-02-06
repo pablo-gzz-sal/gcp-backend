@@ -7,10 +7,11 @@ export interface IUser {
   password: string;
 }
 
-const User = new Schema({
+const User = new Schema<any>({
   email: {
     type: String,
     required: true,
+    unique: true
   },
   password: {
     type: String,
