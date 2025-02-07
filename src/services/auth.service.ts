@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs";
 
 class AuthService {
   static findUser = async (email: string): Promise<any> => {
+    console.log(email);
+    
     return await User.findOne({ email })
   };
 
@@ -10,6 +12,8 @@ class AuthService {
     email: string,
     password: string
   ): Promise<IUser> => {
+    console.log(email, password);
+    
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser: IUser = { email, password: hashedPassword };
 

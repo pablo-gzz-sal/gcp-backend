@@ -3,21 +3,6 @@ import bcrypt, { compare } from "bcryptjs";
 import jwt from "jsonwebtoken";
 import AuthService from "../services/auth.service";
 
-export const registerUser = async (req: any, res: any) => {
-  const { email, password } = req.body;
-
-  const foundUser = await AuthService.findUser(email);
-  if (foundUser) {
-    return res.status(400).json({ message: "User already exists" });
-  }
-
-  const newUser = await AuthService.createUser(email, password);
-  res.status(201).json({
-    message: "User registered successfully",
-    user: { email: newUser.email, password: newUser.password },
-  });
-};
-
 export const handleLogin = async (req: any, res: any) => {
   const { email, password } = req.body;
 
@@ -26,11 +11,19 @@ export const handleLogin = async (req: any, res: any) => {
       .status(400)
       .json({ message: "Username and password are required" });
 
-  const foundUser = await AuthService.findUser(email);
+  let foundUser = await AuthService.findUser(email);
+
+  if (!foundUser) {
+    foundUser = await AuthService.createUser(email, password)
+  }
+
+  if (!foundUser) {
+    return res.status(500).json({ message: "Error creating user" });
+  }
 
   const match = await bcrypt.compare(password, foundUser.password);
 
-  if (!foundUser || !match)
+  if (!match)
     return res.status(401).json({ message: "Invalid email or password" });
 
   const token = jwt.sign(
