@@ -55,7 +55,8 @@ verifyJWT.ts: Ensures users are authenticated before accessing protected routes.
 ## Notes
 
 1. Ensure MongoDB is running locally.
-2. Command to generate random key 
+2. Command to generate random key: 
     node -e "console.log(require('crypto').randomBytes(32).toString('hex'))" 
-    output: 394d2be2088a8246573503d6268788bf6a3e629309a256b963254ea530db34a4
+    output e.g.: 394d2be2088a8246573503d6268788bf6a3e629309a256b963254ea530db34a4
+3. To access Auth API Documentation go to [http://localhost:3000/api-docs/](http://localhost:3000/api-docs/)
 
