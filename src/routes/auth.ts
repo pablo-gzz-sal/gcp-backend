@@ -5,6 +5,7 @@ import {
   handleLogin,
   protectedRoute,
 } from "../controllers/authController";
+import { IUser } from "../models/User";
 
 /**
  * @swagger
@@ -41,7 +42,7 @@ import {
  *       401:
  *         description: Invalid credentials
  */
-router.post("/login", handleLogin);
+router.post<IUser>("/login", handleLogin as any);
 
 /**
  * @swagger
@@ -81,6 +82,6 @@ router.post("/login", handleLogin);
  *                   type: string
  *                   example: Unauthorized
  */
-router.get("/protected", verifyJWT, protectedRoute);
+router.get("/protected", verifyJWT as any, protectedRoute);
 
 export default router;

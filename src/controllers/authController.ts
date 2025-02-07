@@ -1,7 +1,9 @@
-import User, { IUser } from "../models/User";
-import bcrypt, { compare } from "bcryptjs";
+import { IUser } from "../models/User";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import AuthService from "../services/auth.service";
+import { Request, Response } from "express";
+
 
 /**
  * Handles user login and registration
@@ -12,8 +14,8 @@ import AuthService from "../services/auth.service";
  * @throws 401 if password doesn't match
  * @throws 500 if user creation fails
  */
-export const handleLogin = async (req: any, res: any) => {
-  const { email, password } = req.body;
+export const handleLogin = async (req: Request, res: Response) => {
+  const { email, password } = req.body as IUser;
 
   if (!email || !password)
     return res
@@ -50,7 +52,7 @@ export const handleLogin = async (req: any, res: any) => {
  * @param res Express response
  * @returns JSON response with user data from JWT
  */
-export const protectedRoute = (req: any, res: any) => {
+export const protectedRoute = (req: Request, res: Response) => {
   res.json({ 
     message: 'Protected data', 
     data: 'Secret content',
