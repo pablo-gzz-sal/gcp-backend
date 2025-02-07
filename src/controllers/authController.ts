@@ -3,6 +3,15 @@ import bcrypt, { compare } from "bcryptjs";
 import jwt from "jsonwebtoken";
 import AuthService from "../services/auth.service";
 
+/**
+ * Handles user login and registration
+ * @param req Express request containing email and password in body
+ * @param res Express response
+ * @returns JSON response with auth token or error message
+ * @throws 400 if email/password missing
+ * @throws 401 if password doesn't match
+ * @throws 500 if user creation fails
+ */
 export const handleLogin = async (req: any, res: any) => {
   const { email, password } = req.body;
 
@@ -35,6 +44,16 @@ export const handleLogin = async (req: any, res: any) => {
   return res.json({ token, message: "User Found" });
 };
 
+/**
+ * Protected route handler requiring valid JWT
+ * @param req Express request with user data from JWT middleware
+ * @param res Express response
+ * @returns JSON response with user data from JWT
+ */
 export const protectedRoute = (req: any, res: any) => {
-  res.json({ message: "This is a protected route", user: (req as any).user });
+  res.json({ 
+    message: 'Protected data', 
+    data: 'Secret content',
+    user: (req as any).user 
+  });
 };
