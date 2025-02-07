@@ -13,7 +13,7 @@
 ## Installation
 
 1. Navigate to the frontend directory:    
-    ### `cd bot-calculator-backend`
+    ### `cd gcp-backend`
 
 2. Install dependencies:
     ###  `npm install`
